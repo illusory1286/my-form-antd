@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Input, Button, List, Typography } from 'antd';
+import { Input, Button, List, Typography,Select } from 'antd';
+
+const { Option } = Select;
 
 const Hi = () => {
   const [todos, setTodos] = useState([]); // 管理Todo項目列表
   const [inputValue, setInputValue] = useState(''); // 管理輸入框內容
   const [searchTerm, setSearchTerm] = useState(''); // 管理搜尋輸入框內容
+  const [sortOrder, setSortOrder] = useState('asc'); // 排序順序狀態
 
   const addTodo = () => {
     if (inputValue.trim() !== '') {
@@ -27,6 +30,17 @@ const Hi = () => {
     todo.text.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // 排序待辦事項列表
+  const sortedTodos = [...filteredTodos].sort((a, b) => {
+    const textA = a.text.toLowerCase();
+    const textB = b.text.toLowerCase();
+
+    if (sortOrder === 'asc') {
+      return textA > textB ? 1 : -1;
+    } else {
+      return textA < textB ? 1 : -1;
+    }
+  });
 
   return (
     <div style={{ padding: 20 }}>
@@ -45,11 +59,19 @@ const Hi = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         style={{ width: 300, marginTop: 20 }}
       />
+      <Select
+        defaultValue="asc"
+        style={{ width: 120, marginTop: 20 }}
+        onChange={(value) => setSortOrder(value)}
+      >
+        <Option value="asc">正向排序</Option>
+        <Option value="desc">反向排序</Option>
+      </Select>
       <List
         style={{ marginTop: 20, width: 300 }}
         bordered
         // dataSource={todos}
-        dataSource={filteredTodos} // 使用filteredTodos來顯示過濾後的項目
+        dataSource={sortedTodos} // 使用filteredTodos來顯示過濾後的項目
         renderItem={(item) => (
           <List.Item
             key={item.id} // 使用item.id作為每個List.Item的key
