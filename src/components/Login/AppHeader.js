@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
+import PropTypes from 'prop-types'; // 添加這行
 
 const { Header } = Layout;
 
@@ -27,6 +28,10 @@ const AppHeader = ({ setFormType }) => {
 
     </Header>
   );
+};
+
+AppHeader.propTypes = {
+  setFormType:PropTypes.func.isRequired,
 };
 
 export default AppHeader;

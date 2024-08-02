@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import AppHeader from './components/Login/AppHeader';
 import LoginForm from './components/Login/LoginForm';
-import Hi from './components/Login/Hi';
+import Todo from './components/Login/Todo';
 
 const App = () => {
   const [formType, setFormType] = useState('login');
@@ -19,7 +19,7 @@ const App = () => {
       {!isLoggedIn ? (
         <LoginForm formType={formType} onLoginSuccess={handleLoginSuccess} />
       ) : (
-        <Hi /> // 登入後顯示Hi組件
+        <Todo /> // 登入後顯示Hi組件
       )}
     </>
   );
