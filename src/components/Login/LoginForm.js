@@ -1,15 +1,16 @@
 import React ,{useState,useEffect}from 'react';
-import { Form, Input, Button, Checkbox,Modal  } from 'antd';
+import { Form, Input, Button, Checkbox,Modal } from 'antd';
 import PropTypes from 'prop-types'; // 添加這行
-import { validateCredentials,validateName } from '../../utils/auth';
+import { validateCredentials,validateName,updatePassword } from '../../utils/auth';
 
 const LoginForm = ({ formType, onLoginSuccess  }) => {
   const [form] = Form.useForm(); // 使用useForm鉤子-flag
   const [username, setUsername] = useState('');
   const [remember, setRemember] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); 
   const [isModalVisible, setIsModalVisible] = useState(false); // 控制Modal顯示狀態
-
+  // 保存username_forget的狀態
+  const [forgetUsername, setForgetUsername] = useState('');
   useEffect(() => {
     // 讀取Cookie中的email和remember狀態
     const cookieValue = document.cookie
@@ -28,7 +29,7 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
     }}, [form]);
     
   const onFinish = (values) => {
-    console.log('Success:', values);
+    // console.log('Success:', values);
     if (formType === 'login') {
       if (validateCredentials(values.username, values.password)) {
         console.log('Login successful!');
@@ -42,39 +43,59 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
         console.log('Invalid credentials');
         document.cookie = 'remember=; max-age=0; path=/'; // 刪除remember Cookie
       }
-    }else {
+    } else {
+      // 忘記密碼的邏輯
       const { name, username_forget } = values;
+      console.log('Username (forget):', username_forget);
+      setForgetUsername(username_forget);
       // 拆分username_forget，只取@前面的部分
       const usernamePart = username_forget.split('@')[0];
-
+  
       // 比較name和usernamePart
       if (name === usernamePart) {
-        // console.log('Name matches username part.');
+        console.log('Name matches username part.');
   
         // 調用validateName函數進行驗證
         if (validateName(username_forget)) {
           console.log('Validation successful, username is valid.');
           // 可以進行後續操作，例如允許修改密碼
-          setIsModalVisible(true);
         } else {
           console.log('Invalid username');
         }
       } else {
-        // alert("'Name does not match Identity(E-mail) part"); // 會有阻塞性的問題
+        // console.log('Name does not match username part.');
+        // alert("'Name does not match Identity(E-mail) part")
         setErrorMessage('Name does not match Identity(E-mail) part');
       }
     }
   };
+    
+
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
-  const handlePsw = () => {
-    // 處理確定修改密碼邏輯
-    setIsModalVisible(false);
+  // handlePsw函数的修改-Modal(沒有session)
+  const handlePsw = (values) => {
+    const { newPassword, confirmPassword } = values;
+    if (newPassword === confirmPassword) {
+      console.log(newPassword)
+      console.log(confirmPassword)
+      const success = updatePassword(forgetUsername, newPassword); // 使用保存的username_forget
+      if (success) {
+        console.log('Password updated successfully');
+        setIsModalVisible(false);
+      } else {
+        console.log('Failed to update password');
+      }
+    } else {
+      console.log('Passwords do not match');
+    }
   };
 
+
+  
   const handleCancel = () => {
     // 處理取消邏輯
     setIsModalVisible(false);
@@ -155,7 +176,8 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
               <Input />
             </Form.Item>
           </>
-        )}        
+        )}    
+
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button 
             type="primary" 
@@ -189,9 +211,11 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
       {/* Modal for changing password */}
       <Modal
         title="Change Password"
+        // on={isModalVisible}
         visible={isModalVisible}
         onOk={handlePsw}
         onCancel={handleCancel}
+        footer={null}
       >
         <Form>
           <Form.Item
@@ -207,6 +231,11 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
             rules={[{ required: true, message: 'Please confirm your new password!' }]}
           >
             <Input.Password />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Change Password
+            </Button>
           </Form.Item>
         </Form>
       </Modal>
