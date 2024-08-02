@@ -1,8 +1,21 @@
 // utils/auth.js
-export const validateCredentials = (username, password) => {
-  const hardcodedUsername = "admin@example.com";
-  const hardcodedPassword = "password123";
-  
-  return username === hardcodedUsername && password === hardcodedPassword;
+let userCredentials = {
+  username: "admin@example.com",
+  password: "password123"
 };
-  
+
+export const validateCredentials = (username, password) => {
+  return username === userCredentials.username && password === userCredentials.password;
+};
+
+export const validateName = (username) => {
+  return username === userCredentials.username;
+};
+
+export const updatePassword = (username, newPassword) => {
+  if (username === userCredentials.username) {
+    userCredentials.password = newPassword;
+    return true; // 更新成功
+  }
+  return false; // 更新失敗
+};
