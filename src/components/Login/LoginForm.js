@@ -40,6 +40,7 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
           document.cookie = `remember=true; max-age=31536000; path=/`;
         }
       } else {
+        console.log(values.username, values.password)
         console.log('Invalid credentials');
         document.cookie = 'remember=; max-age=0; path=/'; // 刪除remember Cookie
       }
@@ -53,17 +54,16 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
   
       // 比較name和usernamePart
       if (name === usernamePart) {
-        console.log('Name matches username part.');
-  
         // 調用validateName函數進行驗證
         if (validateName(username_forget)) {
-          console.log('Validation successful, username is valid.');
+          // console.log('Validation successful, username is valid.');
           // 可以進行後續操作，例如允許修改密碼
+          // 顯示修改密碼的 Modal
+          setIsModalVisible(true);
         } else {
           console.log('Invalid username');
         }
       } else {
-        // console.log('Name does not match username part.');
         // alert("'Name does not match Identity(E-mail) part")
         setErrorMessage('Name does not match Identity(E-mail) part');
       }
@@ -80,17 +80,18 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
   const handlePsw = (values) => {
     const { newPassword, confirmPassword } = values;
     if (newPassword === confirmPassword) {
-      console.log(newPassword)
-      console.log(confirmPassword)
       const success = updatePassword(forgetUsername, newPassword); // 使用保存的username_forget
       if (success) {
-        console.log('Password updated successfully');
+        // console.log('Password updated successfully');
+        setErrorMessage('Password updated successfully');
         setIsModalVisible(false);
       } else {
-        console.log('Failed to update password');
+        // console.log('Failed to update password');
+        setErrorMessage('Failed to update password');
       }
     } else {
-      console.log('Passwords do not match');
+      // console.log('Passwords do not match');
+      setErrorMessage('Passwords do not match');
     }
   };
 
@@ -217,7 +218,7 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <Form>
+        <Form onFinish={handlePsw}>
           <Form.Item
             label="New Password"
             name="newPassword"
