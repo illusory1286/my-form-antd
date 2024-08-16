@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox,Modal } from 'antd';
 import PropTypes from 'prop-types'; // 添加這行
 import { validateCredentials,validateName,updatePassword } from '../../utils/auth';
 
+// 登入表單的邏輯
 const LoginForm = ({ formType, onLoginSuccess  }) => {
   const [form] = Form.useForm(); // 使用useForm鉤子-flag
   const [username, setUsername] = useState('');

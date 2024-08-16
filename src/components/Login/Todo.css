@@ -1,7 +1,0 @@
-.custom-title-button {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    padding: 0 !important; /* 強制移除內邊距 */
-  }
-  /* // style={{ width: '100%', textAlign: 'left', paddingLeft: 0}}> */

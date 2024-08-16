@@ -1,7 +1,10 @@
 import React,{useState} from 'react';
-import AppHeader from './components/Login/AppHeader';
+import AppHeader from './components/Platform/AppHeader';
 import LoginForm from './components/Login/LoginForm';
-import Todo from './components/Login/Todo';
+// import Todo from './components/Login/Todo';
+import HomePage from './pages/HomePage.js'
+
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 const App = () => {
   const [formType, setFormType] = useState('login');
@@ -14,15 +17,17 @@ const App = () => {
   };
 
   return (
-    <>
+    <Router>
       {!isLoggedIn && <AppHeader setFormType={setFormType} />}
-      {!isLoggedIn ? (
-        <LoginForm formType={formType} onLoginSuccess={handleLoginSuccess} />
-      ) : (
-        <Todo /> // 登入後顯示Hi組件
-      )}
-    </>
+      <Routes>
+        {/* <Route path="/" element={!isLoggedIn ? <LoginForm formType={formType} onLoginSuccess={handleLoginSuccess} /> : <Navigate to="/todo" />} /> */}
+        {/* <Route path="/todo" element={isLoggedIn ? <Todo /> : <Navigate to="/" />} /> */}
+        <Route path="/" element={!isLoggedIn ? <LoginForm formType={formType} onLoginSuccess={handleLoginSuccess} /> : <Navigate to="/HomePage" />} />
+        <Route path="/HomePage" element={isLoggedIn ? <HomePage /> : <Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 };
 
 export default App;
+
