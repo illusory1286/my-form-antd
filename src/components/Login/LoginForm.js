@@ -121,6 +121,7 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
         autoComplete="off"
         style={{ maxWidth: 400 }}
       >
+        {/* 使用formType實現畫面的切換 */}
         {formType === 'login' ? (
           <>    
             <Form.Item
@@ -203,7 +204,7 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
       {errorMessage && (
         <Modal
           title="Error"
-          visible={!!errorMessage}
+          open={!!errorMessage}
           onOk={handleOk}
           onCancel={handleOk}
         >
@@ -214,7 +215,7 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
       <Modal
         title="Change Password"
         // on={isModalVisible}
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handlePsw}
         onCancel={handleCancel}
         footer={null}
