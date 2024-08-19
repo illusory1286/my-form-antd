@@ -1,7 +1,7 @@
 // utils/auth.js
 let userCredentials = {
   username: "admin@example.com",
-  password: "password123"
+  password: "Nwing123"
 };
 
 // 初始加載時，檢查sessionStorage是否有用戶數據
