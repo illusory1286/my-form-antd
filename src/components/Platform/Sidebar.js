@@ -5,6 +5,7 @@ import {
   LaptopOutlined,
 } from '@ant-design/icons';
 import { Todo } from './Todo';
+import { Todo_Node } from './Todo_Node';
 const { Sider, Content } = Layout;
 
 
@@ -24,20 +25,20 @@ const Sidebar = () => {
     case '2':
       return(
         <>
-          <div>123</div>
+          <div>action</div>
         </>
       )
     case '3':
       return (
         <>
-          <h1>NodeTeamC</h1>
+          <h1>target</h1>
         </>
       )
     case '4':
       return(
         <>
-          <h1>SettingContent</h1>
-          <Todo />
+          <h1>NodeTeam</h1>
+          <Todo_Node />
         </>
       )
     default:
@@ -57,36 +58,38 @@ const Sidebar = () => {
           defaultSelectedKeys={['1']}
           onClick={(e) => {
             setSelectedKey(e.key)
-            console.log(selectedKey)
+            console.log(e.key)
           }
           }
           style={{ height: '100%', borderRight: 0 }}
-        >
-          <Menu.SubMenu key="sub1" icon={<UserOutlined />} title="Scene">
-            <Menu.Item key="1">
-                Script
-            </Menu.Item>
-            <Menu.Item key="2">
-                Action
-            </Menu.Item>
-          </Menu.SubMenu>
-
-          <Menu.SubMenu key="sub2" icon={<LaptopOutlined />} title="Parameter">
-            <Menu.Item key="3">
-                target
-            </Menu.Item>
-			 <Menu.Item key="4">
-                Node Team
-            </Menu.Item>
-            <Menu.Item key="5">
-                Policy
-            </Menu.Item>
-          </Menu.SubMenu>
-          
-          <Menu.Item key="4" icon={<LaptopOutlined />}>
-            Setting
-          </Menu.Item>
-        </Menu>
+        
+          items={[
+            {
+              key: 'sub1',
+              icon: <UserOutlined />,
+              label: 'Scene',
+              children: [
+                { key: '1', label: 'Script' },
+                { key: '2', label: 'Action' }
+              ]
+            },
+            {
+              key: 'sub2',
+              icon: <LaptopOutlined />,
+              label: 'Parameter',
+              children: [
+                { key: '3', label: 'target' },
+                { key: '4', label: 'Node Team' },
+                { key: '5', label: 'Policy' }
+              ]
+            },
+            {
+              key: '6', 
+              icon: <LaptopOutlined />,
+              label: 'Setting' 
+            }
+          ]}
+        />
       </Sider>
       <Layout style={{ padding: '0 24px 24px' }}>
         <Content
