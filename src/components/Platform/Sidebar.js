@@ -4,8 +4,10 @@ import {
   UserOutlined,
   LaptopOutlined,
 } from '@ant-design/icons';
-import { Todo } from './Todo';
-import { Todo_Node } from './Todo_Node';
+// UI畫面
+import { Todo } from './Main/Todo';
+import { TodoNode } from './Main/TodoNode';
+import Setting from './Main/Setting';
 const { Sider, Content } = Layout;
 
 
@@ -38,13 +40,20 @@ const Sidebar = () => {
       return(
         <>
           <h1>NodeTeam</h1>
-          <Todo_Node />
+          <TodoNode />
+        </>
+      )
+    case '5':
+      return(
+        <>
+          <h1>Policy</h1>
         </>
       )
     default:
       return (
         <>
-          <div>Select an item</div>
+          {/* <div></div> */}
+          <Setting />
         </>
       )
     }
