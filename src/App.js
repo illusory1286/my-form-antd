@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import AppHeader from './components/Login/AppHeader.js';
 import LoginForm from './components/Login/LoginForm';
+// import { Login } from './pages/Login.js';
 // import Todo from './components/Login/Todo';
 import HomePage from './pages/HomePage.js'
 
@@ -22,7 +23,9 @@ const App = () => {
       <Routes>
         {/* <Route path="/" element={!isLoggedIn ? <LoginForm formType={formType} onLoginSuccess={handleLoginSuccess} /> : <Navigate to="/todo" />} /> */}
         {/* <Route path="/todo" element={isLoggedIn ? <Todo /> : <Navigate to="/" />} /> */}
+
         <Route path="/" element={!isLoggedIn ? <LoginForm formType={formType} onLoginSuccess={handleLoginSuccess} /> : <Navigate to="/HomePage" />} />
+        {/* <Route path="/" element={!isLoggedIn ? <Login formType={formType} onLoginSuccess={handleLoginSuccess} /> : <Navigate to="/HomePage" />} /> */}
         <Route path="/HomePage" element={isLoggedIn ? <HomePage /> : <Navigate to="/" />} />
       </Routes>
     </Router>

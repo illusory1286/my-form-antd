@@ -1,12 +1,11 @@
 // pages/HomePage.js
 import React from 'react';
 import { Layout } from 'antd';
-// import { Todo } from '../components/Login/Todo';
-// import AppHeader from '../components/Login/AppHeader';
 import Sidebar from '../components/Platform/Sidebar';
-import './HomePage.css';
+// import SidebarAntd from '../components/Platform/SidebarAntd';
+// import './HomePage.css';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 const HomePage = () => {
   return (
     <Layout>
@@ -16,6 +15,7 @@ const HomePage = () => {
       </Header>
       <Layout>
         <Sidebar />
+        
         <Layout style={{ padding: '0 24px 24px' }}>
           <Content
             style={{
@@ -29,9 +29,9 @@ const HomePage = () => {
         </Layout>
       </Layout>
      
-      <Footer style={{ textAlign: 'center' }}>
+      {/* <Footer style={{ textAlign: 'center' }}>
         Onward Security ©2024
-      </Footer>
+      </Footer> */}
     </Layout>
   );
 };

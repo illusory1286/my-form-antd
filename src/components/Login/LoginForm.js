@@ -1,10 +1,12 @@
 import React ,{useState,useEffect}from 'react';
-import { Form, Input, Button, Checkbox,Modal } from 'antd';
+import { Form, Input, Button, Checkbox,Modal,Typography } from 'antd';
 import PropTypes from 'prop-types'; // 添加這行
 import { validateCredentials,validateName,updatePassword } from '../../utils/auth';
 
+
 // 登入表單的邏輯
 const LoginForm = ({ formType, onLoginSuccess  }) => {
+  const { Title } = Typography;
   const [form] = Form.useForm(); // 使用useForm鉤子-flag
   const [username, setUsername] = useState('');
   const [remember, setRemember] = useState(false);
@@ -109,6 +111,9 @@ const LoginForm = ({ formType, onLoginSuccess  }) => {
 
   return (
     <>
+      {/* <Title level={2} style={{ textAlign: 'center' }}>
+        DDoS Platform
+      </Title> */}
       <Form
         form={form} // 將useForm創建的表單實例傳遞給Form組件
         name="login"
