@@ -4,10 +4,17 @@ import {
   UserOutlined,
   LaptopOutlined,
 } from '@ant-design/icons';
-// UI畫面
+// Main-UI畫面
 import { Todo } from './Main/Todo';
-import { TodoNode } from './Main/TodoNode';
-import Setting from './Main/Setting';
+import { Target } from './Main/Target/Target';
+import { NodeTeam } from './Main/NodeForm/NodeTeam';
+import { Policy } from './Main/Policy/Policy';
+import { Attack } from './Settings/Attack';
+// import Setting from './Main/Setting';
+// Setting
+import { System } from './Settings/System';
+import {VPSAccount} from './Main/VPS/VPSAccount';
+import IntermediaryServerForm from './Settings/IntermediaryServerForm';
 const { Sider, Content } = Layout;
 
 
@@ -34,28 +41,57 @@ const Sidebar = () => {
       return (
         <>
           <h1>target</h1>
+          <Target />
         </>
       )
     case '4':
       return(
         <>
           <h1>NodeTeam</h1>
-          <TodoNode />
+          <NodeTeam />
         </>
       )
     case '5':
       return(
         <>
           <h1>Policy</h1>
+          <Policy />
         </>
       )
-    default:
-      return (
+    case '6':
+      return(
         <>
-          {/* <div></div> */}
-          <Setting />
+          <System />
         </>
       )
+    case '7':
+      return(
+        <>
+          <h1>VPS Account</h1>
+          <VPSAccount />
+        </>
+      )
+    case '8':
+      return(
+        <>
+          <Attack />
+          {/* <Policy /> */}
+        </>
+      )
+    case '9':
+      return(
+        <>
+          <IntermediaryServerForm />
+          {/* <h1>Policy</h1> */}
+        </>
+      )
+    // default:
+    //   return (
+    //     <>
+    //       {/* <div></div> */}
+    //       <Setting />
+    //     </>
+    //   )
     }
   };
 
@@ -93,10 +129,21 @@ const Sidebar = () => {
               ]
             },
             {
-              key: '6', 
+              key: 'sub3',
               icon: <LaptopOutlined />,
-              label: 'Setting' 
+              label: 'Setting',
+              children: [
+                { key: '6', label: 'System' },
+                { key: '7', label: 'VPS Account' },
+                { key: '8', label: 'Attack Method' },
+                { key: '9', label: 'Intermediary Server' }
+              ]
             }
+            // {
+            //   key: '6', 
+            //   icon: <LaptopOutlined />,
+            //   label: 'Setting' 
+            // }
           ]}
         />
       </Sider>
@@ -105,7 +152,7 @@ const Sidebar = () => {
           style={{
             padding: 24,
             margin: 0,
-            minHeight: 280,
+            minHeight: 50,
             background: '#fff',
           }}
         >

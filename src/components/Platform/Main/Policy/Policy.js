@@ -1,21 +1,19 @@
 import React, { useState,useEffect } from 'react';
 import { Table, Button, Input, Form, Modal  } from 'antd';
-import './Todo.css';
-import { ThreeForm } from '../../test/ThreeForm';
+import '../Todo.css';
+import { PolicyForm } from './PolicyForm';
 
 
-export const TodoNode = () => {
+export const Policy = () => {
   const [todos, setTodos] = useState([]);// 管理Todo項目列表
-  const [inputValue, setInputValue] = useState('');// 管理輸入框狀態
   const [editingTodo, setEditingTodo] = useState(null);// 管理編輯狀態
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false); // 控制Form顯示狀態
+  const [isModalVisible, setIsModalVisible] = useState(false); // 编辑模态框状态
   const [sortOrder, setSortOrder] = useState('asc'); // 排序方式
   const [searchTerm, setSearchTerm] = useState(''); // 管理搜尋輸入框內容
   const [form] = Form.useForm(); // 创建form实例
-
-  const [showForm, setShowForm] = useState(false);
+  // const [showForm, setShowForm] = useState(false);
   
-
   // 使用useEffect來保存和恢復狀態
   useEffect(() => {
     const savedTodos = localStorage.getItem('todos');
@@ -28,23 +26,12 @@ export const TodoNode = () => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
 
-  const addTodo = () => {
-    setShowForm(true); // 设置状态为 true 来显示 ThreeForm 组件
-    // <ThreeForm />
-  };
-  // if (inputValue.trim() !== '') {
-  //   const newTodo = {
-  //     key: Date.now(), // 使用時間戳作為唯一ID
-  //     text: inputValue,
-  //   };
-  //   setTodos([...todos, newTodo]);
-  //   setInputValue('');
-  // }
 
   // 編輯
   const editTodo = (record) => {
     setEditingTodo(record);
-    form.setFieldsValue({ text: " " }); // 清空輸入框的值
+    // form.setFieldsValue({ text: " " }); // 清空輸入框的值
+    form.setFieldsValue({ text: record.text }); // 设置表单值为当前编辑项的值
     setIsModalVisible(true);
   };
 
@@ -64,8 +51,7 @@ export const TodoNode = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
-    setEditingTodo(null);
-    // setEditingTodo("test");
+    setShowFormModal(false);
     form.resetFields(); // 重置表單
   };
 
@@ -87,6 +73,10 @@ export const TodoNode = () => {
     setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
   };
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
   const handleNameClick = (text) => {
     console.log('You clicked on:', text);
     // 在這裡執行點擊名稱後的邏輯，例如顯示更多信息等
@@ -101,7 +91,7 @@ export const TodoNode = () => {
             type="link" 
             onClick={toggleSortOrder} 
             className="custom-title-button">
-            名稱 {sortOrder === 'asc' ? '↑' : '↓'}
+            Name {sortOrder === 'asc' ? '↑' : '↓'}
           </Button>
         </>
       ),
@@ -114,7 +104,7 @@ export const TodoNode = () => {
       ),
     },
     {
-      title: '功能',
+      title: 'Action',
       key: 'actions',
       render: (text, record) => (
         <>
@@ -128,14 +118,6 @@ export const TodoNode = () => {
   return (
     <>
       <Input
-        placeholder="Enter a new Node"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onPressEnter={addTodo} // 支持按下Enter鍵新增
-        style={{ width: 300, marginRight: 10 }}
-      />
-      
-      <Input
         placeholder="Search todos"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -144,10 +126,17 @@ export const TodoNode = () => {
 
       <Button 
         type="primary" 
-        onClick={addTodo}
-      >Create</Button>
+        style={{ float: 'right' }}
+        onClick={showModal}
+      >Create
+      </Button>
+  
+      {isModalVisible && (
+        <PolicyForm onCancel={handleCancel} form={form} />
+      )}
 
-      {showForm && <ThreeForm />} {/* 当 showForm 为 true 时渲染 ThreeForm 组件 */}
+
+      {/* {showForm && <NodeForm />} 当 showForm 为 true 时渲染 NodeForm 组件 */}
 
       <Table
         columns={columns}
@@ -155,6 +144,17 @@ export const TodoNode = () => {
         pagination={{ pageSize: 5 }}
         style={{ marginTop: 20 }}
       />
+
+      {/* 顯示 NodeForm 的 Modal */}
+      <Modal
+        title="Create Target"
+        open={showFormModal}
+        onCancel={handleCancel}
+        footer={null}
+        
+      >
+        <PolicyForm onCancel={handleCancel} form={form}/>
+      </Modal>
 
       {/* Edit互動視窗 */}
       <Modal
@@ -185,4 +185,3 @@ export const TodoNode = () => {
   );
 };
 
-// export default Todo;
